@@ -42,6 +42,7 @@ var xhr = {
     request.send();
     return request;
   },
+  
   /**
    * Send data via POST
    * 
