@@ -44,7 +44,7 @@ var xhr = {
   },
   
   /**
-   * Send data via POST
+   * Sends data via POST
    * 
    * @param {url} first Url you want to send data to
    * @param {data} second Data you want to send, takes string or object
