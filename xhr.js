@@ -25,44 +25,29 @@ SOFTWARE.
 'use strict';
 
 var xhr = {
-  /**
-   * Sends data via GET
-   * 
-   * @param {url} first Url you want to send to, including data
-   * @param {success} second Lets you work with response in a function
-   * @returns {request}
-   */
-  get: function get(url, success) {
-    var request = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    request.open('GET', url);
-    request.onreadystatechange = function () {
-      if (request.readyState > 3 && request.status === 200) success(request.responseText);
-    };
-    request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    request.send();
-    return request;
-  },
-  
-  /**
-   * Sends data via POST
-   * 
-   * @param {url} first Url you want to send data to
-   * @param {data} second Data you want to send, takes string or object
-   * @param {success} third Lets you work with response in a function
-   * @returns {request}
-   */
-  post: function post(url, data, success) {
-    var params = typeof data == 'string' ? data : Object.keys(data).map(function (k) {
-      return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]);
-    }).join('&');
-    var request = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    request.open('POST', url);
-    request.onreadystatechange = function () {
-      if (request.readyState > 3 && request.status === 200) success(request.responseText);
-    };
-    request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    request.send(params);
-    return request;
-  }
+    /**
+     * Sends data with XHR
+     *
+     * @param {string} method - The method you want to use to send data, either GET or POST
+     * @param {string} url - The url you want to send data to
+     * @param {string/object} data - The data you want to send
+     * @param {function} success - Lets you work with the response in a function
+     */
+    send: function send(method, url, data, success) {
+        var GET = method.toUpperCase() === 'GET';
+        var POST = method.toUpperCase() === 'POST';
+        var params = typeof data == 'string' ? data : Object.keys(data).map(function (k) {
+            return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]);
+        }).join('&');
+        var request = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var u = GET ? url + '?' + params : url;
+        if (GET && POST) var m = method.toUpperCase();
+        request.open(m, u);
+        request.onreadystatechange = function () {
+            if (request.readyState > 3 && request.status === 200) success(request.responseText);
+        };
+        request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        if (POST) request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        request.send(params);
+    }
 };
