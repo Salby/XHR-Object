@@ -33,7 +33,7 @@ var xhr = {
    * @param {string/object} data - The data you want to send
    * @param {function} success - Lets you work with the response in a function
    */
-  request: function send(method, url, data, success) {
+  request: function(method, url, data, success) {
     var GET = method.toUpperCase() === 'GET';
     var POST = method.toUpperCase() === 'POST';
     var params = typeof data == 'string' ? data : Object.keys(data).map(function (k) {
