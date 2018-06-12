@@ -15,7 +15,7 @@ const data = {
 };
 const url = 'test.html';
 
-xhr.send('POST', url, data, (res) => {
+xhr.request('POST', url, data, (res) => {
   console.log(res);
 });
 ```
@@ -29,7 +29,7 @@ const data = {
 };
 const url = 'test.html';
 
-xhr.send('GET', url, data, (res) => {
+xhr.request('GET', url, data, (res) => {
   console.log(res);
 });
 ```
